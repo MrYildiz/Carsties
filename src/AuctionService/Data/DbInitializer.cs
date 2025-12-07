@@ -10,7 +10,10 @@ namespace AuctionService.Data
         {
             using var scope = app.Services.CreateScope();
 
-            SeedData(scope.ServiceProvider.GetService<AuctionDbContext>());
+            var context = scope.ServiceProvider.GetService<AuctionDbContext>()
+            ?? throw new InvalidOperationException("Failed to retrieve AuctionDbContext from the service provider.");
+
+            SeedData(context);
         }
 
         private static void SeedData(AuctionDbContext context)
